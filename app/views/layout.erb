@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Warehouse App</title>
+    <link rel="icon" href="images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <% if @css %>
+      <% @css.each do |style| %>
+        <%= "<link rel=\"stylesheet\" href=\"css/#{style}.css\">" %>
+      <% end %>
+    <% end %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/general-js.js"></script>
+    <% if @js %>
+      <% @js.each do |jscript| %>
+        <%= "<script src=\"js/#{jscript}.js\"></script>" %>
+      <% end %>
+    <% end %>
+  </head>
+  <body>
+    <div class="wrapper">
+      <% if @error %>
+        <p class="error"><%= @error %></p>
+      <% end %>
+      <div class="menu" id="menu-div">
+        <i class="fa-solid fa-bars" id="menu-icon" onclick="showMenu()"></i>
+        <div class="menu-block">
+          <i class="fa-solid fa-xmark fa-xl" id="xmark-icon" onclick="hideMenu()"></i>
+          <% if current_user %>
+            <a href="/logout" id="menu-link"><h1>logout <i class="fa-solid fa-right-from-bracket"></i></h1>
+          <% else %>
+            <a href="/login" id="menu-link"><h1>login <i class="fa-solid fa-fingerprint"></i></h1>
+          <% end %></a>
+          <a href="/"><h1>home <i class="fa-solid fa-house"></i></h1></a>
+        </div>
+      </div>
+      <%= yield %>
+    </div>
+  </body>
+  <footer class="branding">
+    <small>&copy; 2022 <strong>Barry-Dev</strong></small>
+  </footer>
+  </html>

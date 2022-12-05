@@ -1,0 +1,12 @@
+.goback {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.goback a{
+  width: max-content;
+  border-radius: 15px;
+  background: #252525;
+  padding: 10px;
+  box-shadow: 0px 5px 10px 0px rgba(50,50,50,0.7);
+}

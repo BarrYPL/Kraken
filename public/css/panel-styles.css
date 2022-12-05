@@ -1,0 +1,38 @@
+.panel {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 15px;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+.box {
+  text-align: center;
+  margin: 10px;
+  width: 40%;
+  height: 0px;
+  padding-bottom: 40%;
+  border: 1px solid #f1f1f1;
+  border-radius: 20px;
+}
+
+.box-content {
+  position: relative;
+  transform: translateY(100%);
+}
+
+.box-content button {
+  background: transparent;
+  border: none;
+  color: #f1f1f1;
+}
+
+.icon-div {
+  margin: 10px;
+}
+
+#active {
+  box-shadow: inset 0px 0px 20px 0px rgba(255, 32, 32, 1);
+}

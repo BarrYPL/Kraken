@@ -1,0 +1,118 @@
+<div class="content">
+  <h2>Connected with:</h2>
+  <p><%= $clientsList[params[:client].to_i].name %></p>
+</div>
+<div class="panel">
+  <div class="box">
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="shell">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-solid fa-code fa-2xl"></i>
+        </div>
+      <p>Get shell</p></button>
+    </form>
+  </div>
+  <% if $clientsList[params[:client].to_i].mouseTaken == 1 %>
+    <div class="box" id="active">
+  <% else %>
+    <div class="box">
+  <% end %>
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="get-mouse">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-solid fa-computer-mouse fa-2xl"></i>
+        </div>
+      <p>Take over mouse</p></button>
+    </form>
+  </div>
+  <div class="box">
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="melt-monitor">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-solid fa-desktop fa-2xl"></i>
+        </div>
+      <p>Melt Screen</p></button>
+    </form>
+  </div>
+  <div class="box">
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="bsod">
+      <button type="submit">
+      <div class="icon-div">
+        <i class="fa-solid fa-bug fa-2xl"></i>
+      </div>
+      <p>BSOD</p></button>
+    </form>
+  </div>
+  <div class="box">
+    <form class="box-content" action="/volcontrol" method="get">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="vcontrol">
+      <button type="submit">
+      <div class="icon-div">
+        <i class="fa-solid fa-volume-high fa-2xl"></i>
+      </div>
+      <p>Volume Control</p></button>
+    </form>
+  </div>
+  <% if $clientsList[params[:client].to_i].jiraTrap == 1 %>
+    <div class="box" id="active">
+  <% else %>
+    <div class="box">
+  <% end %>
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="trap-jira">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-brands fa-jira fa-2xl"></i>
+        </div>
+      <p>Trap Jira</p></button>
+    </form>
+  </div>
+  <% if $clientsList[params[:client].to_i].menuStart == 1 %>
+    <div class="box" id="active">
+  <% else %>
+    <div class="box">
+  <% end %>
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="take-over-menustart">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-brands fa-windows fa-2xl"></i>
+        </div>
+      <p>Get Menu Start</p></button>
+    </form>
+  </div>
+  <% if $clientsList[params[:client].to_i].discordTrap == 1 %>
+    <div class="box" id="active">
+  <% else %>
+    <div class="box">
+  <% end %>
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="set-discord-trap">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-brands fa-discord fa-2xl"></i>
+        </div>
+      <p>Set Discord Trap</p></button>
+    </form>
+  </div>
+</div>

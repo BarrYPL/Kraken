@@ -1,3 +1,8 @@
 <div class="content">
-  <p>Trying open shell on port 1234.</p>
+  <% if @msg %>
+    <p><%= @msg %></p>
+  <% end %>
+</div>
+<div class="goback">
+  <a href="/panel?client=<%= @mClient.id %>"><i class="fa-solid fa-house"></i> Go back</a>
 </div>

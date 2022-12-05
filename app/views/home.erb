@@ -1,4 +1,24 @@
 <div class="content">
-  <h1>Dashboard</h1>
+  <h2>Dashboard</h2>
   <p>We got <%= Client.quantity %> clients connected.</p>
 </div>
+<div class="clients">
+  <p class="grey-text">Client list</p>
+  <% if Client.quantity > 0  %>
+  <div class="client-list">
+    <% $clientsList.each do |lClient|%>
+      <%= erb :client_partial, locals: {lClient: lClient} %>
+    <% end %>
+  </div>
+  <% else  %>
+    <div class="no-clients">
+      <h2>EMPTY :(</h2>
+      <button type="button" onclick="reload();" ><i class="fa-solid fa-arrows-rotate"></i>Refresh</button>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  function reload(){
+    location.reload();
+  }
+</script>

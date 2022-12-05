@@ -1,0 +1,30 @@
+.box {
+  text-align: center;
+  margin: 10px;
+  width: 30%;
+  height: 0px;
+  padding-bottom: 30%;
+  border: 1px solid #f1f1f1;
+  border-radius: 20px;
+}
+
+.box-content {
+  position: relative;
+  transform: translateY(50%);
+}
+
+.box-content button {
+  background: transparent;
+  border: none;
+  color: #f1f1f1;
+}
+
+.icon-div {
+  margin: 10px;
+}
+
+.volcontrol {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

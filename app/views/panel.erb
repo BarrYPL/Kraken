@@ -6,7 +6,6 @@
   <div class="box">
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="shell">
       <button type="submit">
         <div class="icon-div">
@@ -22,7 +21,6 @@
   <% end %>
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="get-mouse">
       <button type="submit">
         <div class="icon-div">
@@ -34,7 +32,6 @@
   <div class="box">
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="melt-monitor">
       <button type="submit">
         <div class="icon-div">
@@ -46,7 +43,6 @@
   <div class="box">
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="bsod">
       <button type="submit">
       <div class="icon-div">
@@ -58,7 +54,6 @@
   <div class="box">
     <form class="box-content" action="/volcontrol" method="get">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="vcontrol">
       <button type="submit">
       <div class="icon-div">
@@ -74,7 +69,6 @@
   <% end %>
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="trap-jira">
       <button type="submit">
         <div class="icon-div">
@@ -90,7 +84,6 @@
   <% end %>
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="take-over-menustart">
       <button type="submit">
         <div class="icon-div">
@@ -106,7 +99,6 @@
   <% end %>
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="set-discord-trap">
       <button type="submit">
         <div class="icon-div">
@@ -118,13 +110,23 @@
   <div class="box">
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="turnoffMonitor">
       <button type="submit">
       <div class="icon-div">
         <i class="fa-solid fa-computer fa-2xl"></i>
       </div>
       <p>Turn Off Monitor</p></button>
+    </form>
+  </div>
+  <div class="box">
+    <form class="box-content" action="/generate_error" method="get">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="request" value="generate_error">
+      <button type="submit">
+      <div class="icon-div">
+        <i class="fa-solid fa-triangle-exclamation fa-2xl"></i>
+      </div>
+      <p>Generate Error</p></button>
     </form>
   </div>
 </div>

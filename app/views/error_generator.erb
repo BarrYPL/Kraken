@@ -1,0 +1,75 @@
+<div class="error-site">
+  <div class="content">
+    <h2>Error generator</h2>
+  </div>
+  <div class="error_creator">
+    <form class="error_form" action="generate_error" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" placeholder="Max 100 characters">
+      <label for="text">Error text:</label>
+      <input type="text" id="text" name="text" placeholder="Max 1000 characters">
+      <label for="buttons"></label>
+      <p>Choose buttons:</p>
+      <p class="grey-text">No choice = OK button.</p>
+      <fieldset id="button-choice">
+        <div class="answer">
+          <input type="radio" name="buttons" value="0" id="mb-ok">
+          <label for="mb-ok">OK</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="2" id="mb-ari">
+          <label for="mb-ari">Abort, Retry, Ignore</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="6" id="mb-ctc">
+          <label for="mb-ctc">Cancel, Try Again, Continiue</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="16384" id="mb-hlp">
+          <label for="mb-hlp">Help</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="1" id="mb-okc">
+          <label for="mb-okc">OK, Cancel</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="5" id="mb-rtc">
+          <label for="mb-rtc">Retry, Cancel</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="4" id="mb-ysn">
+          <label for="mb-ysn">Yes, No</label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="buttons" value="3" id="mb-ync">
+          <label for="mb-ync">Yes, No, Cancel</label>
+        </div>
+      </fieldset>
+      <p>Choose icon:</p>
+      <p class="grey-text">No choice = no icon.</p>
+      <fieldset class="icon-choice">
+        <div class="answer">
+          <input type="radio" name="icons" value="48" id="mb-ywn">
+          <label for="mb-ywn"><img src="/images/warn-icon.png" alt="error"></label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="icons" value="64" id="mb-bin">
+          <label for="mb-bin"><img src="/images/info-icon.png" alt="error"></label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="icons" value="16" id="mb-ist">
+          <label for="mb-ist"><img src="/images/error-icon.png" alt="error"></label>
+        </div>
+        <div class="answer">
+          <input type="radio" name="icons" value="32" id="mb-iqs">
+          <label for="mb-iqs"><img src="/images/wtf-icon.png" alt="error"></label>
+        </div>
+      </fieldset>
+      <input type="submit" id="button" value="Send Eror">
+    </form>
+  </div>
+  <div class="goback">
+    <a href="/panel?client=<%= $clientsList[params[:client].to_i].id %>"><i class="fa-solid fa-house"></i> Go back</a>
+  </div>
+</div>

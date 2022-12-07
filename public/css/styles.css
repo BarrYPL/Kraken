@@ -148,6 +148,7 @@ footer {
 .grey-text {
   color: #505050;
   padding: 10px;
+  font-style: italic;
 }
 
 .infos {

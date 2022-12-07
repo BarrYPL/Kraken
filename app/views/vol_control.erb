@@ -2,7 +2,6 @@
   <div class="box">
     <form class="box-content" action="javascript:;" onsubmit='sendReq("volup")'>
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="vcontrol">
       <button type="submit">
       <div class="icon-div">
@@ -14,7 +13,6 @@
   <div class="box">
     <form class="box-content" action="javascript:;" onsubmit='sendReq("voldw")'>
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="vcontrol">
       <button type="submit">
       <div class="icon-div">
@@ -26,7 +24,6 @@
   <div class="box">
     <form class="box-content" action="javascript:;" onsubmit='sendReq("mute")'>
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
-      <input type="hidden" name="client_name" value="<%= $clientsList[params[:client].to_i].name %>">
       <input type="hidden" name="request" value="vcontrol">
       <button type="submit">
       <div class="icon-div">

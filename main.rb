@@ -46,6 +46,8 @@ $shellThread = Thread.new {
 
 class MyServer < Sinatra::Base
 
+  enable :sessions
+
   configure do
     set :run            , 'true'
     set :public_folder  , 'public'
@@ -56,7 +58,12 @@ class MyServer < Sinatra::Base
   end
 
   get '/' do
+    if current_user
       erb :home
+    else
+      @css = ["login-styles"]
+      erb :login
+    end
   end
 
   get '/panel' do
@@ -206,6 +213,43 @@ class MyServer < Sinatra::Base
       end
       @css = ["site-after-styles"]
       erb :site_after, locals: {params: params}
+    end
+  end
+
+  get '/logout' do
+    session.clear
+    redirect '/'
+  end
+
+  get '/login' do
+    @css = ["login-styles"]
+    erb :login
+  end
+
+  post '/login' do
+    if !params[:username].empty? && !params[:password].empty?
+      $usersDB.map do |user|
+        if params[:username] == user[:username]
+          pass_t = user[:password_hash]
+          if test_password(params[:password], pass_t)
+            session.clear
+            session[:user_id] = user[:id]
+            redirect '/'
+          else
+            @css = ["login-styles"]
+            @error = "Invalid password."
+            erb :login
+          end
+        end
+      end
+      session.clear
+      @error = 'Username or password was incorrect.'
+      @css = ["login-styles"]
+      erb :login
+    else
+      @css = ["login-styles"]
+      @error = "Complete all fields on the form."
+      erb :login
     end
   end
 

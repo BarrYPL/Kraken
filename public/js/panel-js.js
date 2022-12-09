@@ -5,7 +5,7 @@ function _(el){
 }
 
 function block_bsod(e){
-  var confirmation = confirm("Na pewno chcesz to zrobić? Będize mu przykro...");
+  var confirmation = confirm("Na pewno chcesz to zrobić? Będzie mu przykro...");
   if(confirmation == false){
     e.preventDefault();
   }

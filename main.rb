@@ -22,7 +22,11 @@ $loopThread = Thread.new {
         $semaphore.synchronize { $clientsList << Client.new(client) }
         while line = client.gets
           if line[0..10] == "Polaczono z"
-            $semaphore.synchronize { $clientsList[Client.num].name = line[12..-2] }
+            @name = line[12..-2]
+            $semaphore.synchronize { $clientsList[Client.num].name = @name }
+            if $clientsDB.select(:ip).where(:ip => client.addr.last).first.nil?
+              add_client(client.addr.last , @name)
+            end
           end
         end
       rescue
@@ -59,6 +63,7 @@ class MyServer < Sinatra::Base
 
   get '/' do
     if current_user
+      @js = ["home-js"]
       erb :home
     else
       @css = ["login-styles"]
@@ -75,6 +80,12 @@ class MyServer < Sinatra::Base
       @js = ["panel-js"]
       erb :panel, locals: {params: params}
     end
+  end
+
+  post '/edit_name' do
+    edit_name(params)
+    @js = ["home-js"]
+    erb :home
   end
 
   post '/vcontrol' do

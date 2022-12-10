@@ -1,7 +1,16 @@
 <div class="client">
+  <!--
   <img src="images/rafe.png" alt="err" id="client-img">
+  -->
+  <i class="fa-solid fa-circle-user fa-2x"></i>
   <div class="infos">
-    <p><%= lClient.name %></p>
+    <form class="client-name-form" action="edit_name" method="post">
+      <input type="hidden" name="ip" value="<%= lClient.ip %>">
+      <p class="p-name"><%= $clientsDB.select(:name).where(:ip => lClient.ip).first[:name] %></p>
+      <% if current_user[:isAdmin] == 1 %>
+        <i class="fa-solid fa-pencil" id="p-name"></i>
+      <% end %>
+    </form>
     <p><%= lClient.ip %></p>
   </div>
   <a href="/panel?client=<%= lClient.id %>"><button type="button" name="button" id="button">Connect</button></a>

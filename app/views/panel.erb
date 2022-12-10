@@ -1,6 +1,6 @@
 <div class="content">
   <h2>Connected with:</h2>
-  <p><%= $clientsList[params[:client].to_i].name %></p>
+  <p><%= $clientsDB.select(:name).where(:ip => $clientsList[params[:client].to_i].ip).first[:name] %></p>
 </div>
 <div class="panel">
   <div class="box">

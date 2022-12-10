@@ -16,6 +16,13 @@ DB.create_table :users do
   String :twofaKey
 end
 
+DB.create_table :clients do
+	primary_key :id
+	String :ip
+	String :name
+	String :image
+end
+
 users = DB[:users]
 
   def hash_password(password)

@@ -155,6 +155,10 @@ footer {
   font-size: small;
 }
 
+.client-name-form {
+  display: flex;
+}
+
 .no-clients {
   display: flex;
   justify-content: space-between;
@@ -168,6 +172,16 @@ footer {
   background: #181818;
   color: #f1f1f1;
   border-radius: 10px;
+}
+
+.p-name {
+  margin-right: 5px;
+}
+
+.created-input {
+  outline: none;
+  border: none;
+  
 }
 
 #button {

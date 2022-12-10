@@ -106,6 +106,14 @@ class MyServer < Sinatra::Base
     erb :photos, locals: {params: params}
   end
 
+  post '/photo_choosen' do
+    if !params[:avatar].nil?
+        update_photo(params)
+    end
+    @js = ["home-js"]
+    erb :home
+  end
+
  post '/edit_name' do
     edit_name(params)
     @js = ["home-js"]

@@ -4,7 +4,7 @@
 </div>
 <div class="clients">
   <p class="grey-text">Client list</p>
-  <% if Client.quantity > 0  %>
+  <% if Client.quantity > 0 %>
   <div class="client-list">
     <% $clientsList.each do |lClient|%>
       <%= erb :client_partial, locals: {lClient: lClient} %>

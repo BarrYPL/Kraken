@@ -2,7 +2,7 @@
 <div class="content">
   <form class="pick-a-photo" action="/photo_choosen" method="post">
     <div class="horizontal-div">
-      <input type="hidden" name="client_id" value="<%= params[:client] %>">
+      <input type="hidden" name="ip" value="<%= $clientsList[params[:client].to_i].ip %>">
       <div class="photo-answer">
         <i class="fa-solid fa-circle-user fa-3x"></i>
         <input type="radio" name="avatar" value="default">
@@ -14,7 +14,9 @@
       </div>
       <% end %>
     </div>
-    <input type="submit">
+    <div class="submit-div">
+      <input type="submit" value="Confirm">
+    </div>
   </form>
 </div>
 <h2>Or upload yours</h2>

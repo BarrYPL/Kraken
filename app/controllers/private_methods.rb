@@ -19,3 +19,12 @@ end
 def edit_name(params)
   $clientsDB.where(:ip => params[:ip]).update(:name => params[:new_name])
 end
+
+def update_photo(params)
+  if params[:avatar] == "default"
+    $clientsDB.where(:ip => params[:ip]).update(:image => nil)
+  else
+    $clientsDB.where(:ip => params[:ip]).update(:image => params[:avatar])
+  end
+  p $clientsDB.where(:ip => params[:ip]).first
+end

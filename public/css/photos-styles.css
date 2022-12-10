@@ -1,0 +1,52 @@
+.horizontal-div {
+  display: flex;
+  flex-direction: row;
+}
+
+.photo-answer i,
+.photo-answer img {
+  margin-right: 10px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+}
+
+[type="file"] {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.upload-form {
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 210px;
+}
+
+#upload-btn{
+  border-radius: 10px;
+    background: #fa0200;
+}
+
+#upload-btn label{
+  display: flex;
+  justify-content: center;
+}
+
+#upload-submit{
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: none;
+  color: #f1f1f1;
+  background: #fa0200;
+}

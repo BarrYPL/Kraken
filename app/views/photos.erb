@@ -1,0 +1,28 @@
+<h1>Pick a photo</h1>
+<div class="content">
+  <form class="pick-a-photo" action="/photo_choosen" method="post">
+    <div class="horizontal-div">
+      <input type="hidden" name="client_id" value="<%= params[:client] %>">
+      <div class="photo-answer">
+        <i class="fa-solid fa-circle-user fa-3x"></i>
+        <input type="radio" name="avatar" value="default">
+      </div>
+      <% Dir.glob("public/images/avatars/*.png").each do |image| %>
+      <div class="photo-answer">
+        <img src="<%= image[6..-1] %>" alt="error" id="client-img">
+        <input type="radio" name="avatar" value="<%= image[22..-1] %>">
+      </div>
+      <% end %>
+    </div>
+    <input type="submit">
+  </form>
+</div>
+<h2>Or upload yours</h2>
+<form action="/upload" class="upload-form" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+  <div class="textbox" id="upload-btn">
+    <input type="hidden" name="client" value="<%= params[:client] %>">
+    <label for="file-to-upload" id="upload-label"><i class="fa-solid fa-upload" id="upload-icon"></i><p>Select File</p></label>
+    <input type="file" name="file" id="file-to-upload" class="fileInput" accept="image/png">
+  </div>
+  <input type="submit" value="Upload File" id="upload-submit" name="submit">
+</form>

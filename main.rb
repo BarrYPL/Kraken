@@ -82,7 +82,31 @@ class MyServer < Sinatra::Base
     end
   end
 
-  post '/edit_name' do
+  get '/photos' do
+    if params.empty? || $clientsList[params[:client].to_i].nil?
+      @error = "Did not found client!"
+      erb :home
+    else
+      @css = ["photos-styles"]
+      @js = ["photos-js"]
+      erb :photos, locals: {params: params}
+    end
+  end
+
+  post '/upload' do
+    @file = params[:file][:tempfile]
+    @file_name = params[:file][:filename].tr_s(" ", "_")
+    if !File.exists?("./public/images/avatars/#{@file_name}")
+      File.open("./public/images/avatars/#{@file_name}", 'wb') do |f|
+        f.write(@file.read)
+      end
+    end
+    @css = ["photos-styles"]
+    @js = ["photos-js"]
+    erb :photos, locals: {params: params}
+  end
+
+ post '/edit_name' do
     edit_name(params)
     @js = ["home-js"]
     erb :home

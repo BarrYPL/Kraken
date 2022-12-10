@@ -2,7 +2,9 @@
   <!--
   <img src="images/rafe.png" alt="err" id="client-img">
   -->
-  <i class="fa-solid fa-circle-user fa-2x"></i>
+  <% if current_user[:isAdmin]  == 1 %>
+    <a href="/photos?client=<%= lClient.id %>"><i class="fa-solid fa-circle-user fa-2x"></i></a>
+  <% end %>
   <div class="infos">
     <form class="client-name-form" action="edit_name" method="post">
       <input type="hidden" name="ip" value="<%= lClient.ip %>">

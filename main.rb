@@ -73,6 +73,25 @@ class MyServer < Sinatra::Base
     end
   end
 
+  get '/users' do
+    if current_user.isAdmin?
+      @css = ["users-styles"]
+      erb :users
+    elsif current_user
+      @error = "This is admin only area."
+      erb :home
+    else
+      @css = ["login-styles"]
+      erb :login
+    end
+  end
+
+  get '/show_qr' do
+    generate_qr(params)
+    @css = ["show_qr-styles"]
+    erb :show_qr, locals: { params: params }
+  end
+
   get '/panel' do
     if current_user
       if params.empty? || $clientsList[params[:client].to_i].nil?
@@ -81,7 +100,7 @@ class MyServer < Sinatra::Base
       else
         @css = ["panel-styles"]
         @js = ["panel-js"]
-        erb :panel, locals: {params: params}
+        erb :panel, locals: { params: params }
       end
     else
       @css = ["login-styles"]
@@ -97,7 +116,7 @@ class MyServer < Sinatra::Base
       else
         @css = ["photos-styles"]
         @js = ["photos-js"]
-        erb :photos, locals: {params: params}
+        erb :photos, locals: { params: params }
       end
     else
       @css = ["login-styles"]
@@ -116,7 +135,7 @@ class MyServer < Sinatra::Base
       end
       @css = ["photos-styles"]
       @js = ["photos-js"]
-      erb :photos, locals: {params: params}
+      erb :photos, locals: { params: params }
     else
       @css = ["login-styles"]
       erb :login
@@ -258,7 +277,7 @@ class MyServer < Sinatra::Base
         end
       end
       @css = ["panel-styles"]
-      erb :panel, locals: {params: params}
+      erb :panel, locals: { params: params }
     else
       @css = ["login-styles"]
       erb :login
@@ -322,7 +341,7 @@ class MyServer < Sinatra::Base
           @msg = "Błedne polecenie."
         end
         @css = ["site-after-styles"]
-        erb :site_after, locals: {params: params}
+        erb :site_after, locals: { params: params }
       end
     else
       @css = ["login-styles"]
@@ -338,6 +357,30 @@ class MyServer < Sinatra::Base
   get '/login' do
     @css = ["login-styles"]
     erb :login
+  end
+
+  get '/user_login' do
+    if !params[:username].empty? && !params[:hotp].empty?
+      $usersDB.map do |user|
+        if params[:username] == user[:username]
+          hotp = ROTP::HOTP.new(user[:twofaKey], issuer: user[:username])
+          hotpKey = hotp.at(user[:is2FA])
+          if hotpKey == params[:hotp]
+            session.clear
+            session[:user_id] = user[:id]
+            redirect '/'
+          else
+            @css = ["login-styles"]
+            @error = "Invalid password."
+            erb :login
+          end
+        end
+      end
+      session.clear
+      @error = 'Username or password was incorrect.'
+      @css = ["login-styles"]
+      erb :login
+    end
   end
 
   post '/login' do

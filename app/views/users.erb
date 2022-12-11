@@ -1,0 +1,21 @@
+<div class="content">
+  <h1>Admin panel</h1>
+  <p class="grey-text">Manage users</p>
+</div>
+<div class="user-table">
+  <div class="single-user">
+    <table>
+      <tr>
+        <th>lp.</th>
+        <th>Username</th>
+        <th>Show QR</th>
+        <th>Num</th>
+      </tr>
+      <% $usersDB.each_with_index do |lUser,k|%>
+        <% if lUser[:id] != current_user[:id] %>
+          <%= erb :user_partial, locals: { lUser: lUser, k: k } %>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>

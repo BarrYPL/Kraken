@@ -1,0 +1,6 @@
+<tr>
+  <td><%= k %></td>
+  <td><%= lUser[:username] %></td>
+  <td><a href="/show_qr?user=<%= lUser[:username]%>&key=<%= lUser[:twofaKey] %>&num=<%= lUser[:is2FA] %>"><button type="button">Show</button></a></td>
+  <td><%= lUser[:is2FA] %></td>
+</tr>

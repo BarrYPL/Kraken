@@ -34,11 +34,12 @@
         <div class="menu-block">
           <i class="fa-solid fa-xmark fa-xl" id="xmark-icon" onclick="hideMenu()"></i>
           <% if current_user %>
-            <a href="/logout" id="menu-link"><h1>logout <i class="fa-solid fa-right-from-bracket"></i></h1>
+            <a href="/logout" id="menu-link"><h1><i class="fa-solid fa-right-from-bracket"></i> logout</h1>
+            <a href="/users"><h1><i class="fa-solid fa-user-secret"></i> users</h1></a>
           <% else %>
-            <a href="/login" id="menu-link"><h1>login <i class="fa-solid fa-fingerprint"></i></h1>
+            <a href="/login" id="menu-link"><h1><i class="fa-solid fa-fingerprint"></i> login</h1>
           <% end %></a>
-          <a href="/"><h1>home <i class="fa-solid fa-house"></i></h1></a>
+          <a href="/"><h1><i class="fa-solid fa-house"></i> home</h1></a>
         </div>
       </div>
       <%= yield %>

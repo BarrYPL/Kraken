@@ -1,5 +1,6 @@
 <div class="content">
   <h2>Dashboard</h2>
+  <h3>Logged in as: <%= $usersDB.select(:username).where(:id => session[:user_id]).first[:username] %></h3>
   <p>We got <%= Client.quantity %> clients connected.</p>
 </div>
 <div class="clients">

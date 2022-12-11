@@ -4,6 +4,16 @@ class NilClass
   end
 end
 
+class Hash
+  def isAdmin?
+    if self[:isAdmin] == 1
+      return true
+    else
+      return false
+    end
+  end
+end
+
 def hash_password(password)
   BCrypt::Password.create(password).to_s
 end
@@ -27,4 +37,26 @@ def update_photo(params)
     $clientsDB.where(:ip => params[:ip]).update(:image => params[:avatar])
   end
   p $clientsDB.where(:ip => params[:ip]).first
+end
+
+def generate_qr(params)
+  path_to_file = "public/images/qr/#{params[:user]}.png"
+  File.delete(path_to_file) if File.exist?(path_to_file)
+  hotp = ROTP::HOTP.new(params[:key], issuer: params[:user])
+  hotpKey = hotp.at(params[:num].to_i)
+  loginLink = "http://192.168.0.59/user_login?username=#{params[:user]}&hotp=#{hotpKey}"
+  qrcode = RQRCode::QRCode.new(loginLink)
+  png = qrcode.as_png(
+    bit_depth: 1,
+    border_modules: 4,
+    color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+    color: 'black',
+    file: nil,
+    fill: 'white',
+    module_px_size: 6,
+    resize_exactly_to: true,
+    resize_gte_to: true,
+    size: 200
+  )
+  IO.binwrite(path_to_file, png.to_s)
 end

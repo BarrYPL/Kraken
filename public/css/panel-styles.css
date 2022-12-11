@@ -33,6 +33,10 @@
   margin: 10px;
 }
 
+button:disabled {
+  color: #121212;
+}
+
 #active {
   box-shadow: inset 0px 0px 20px 0px rgba(255, 32, 32, 1);
 }

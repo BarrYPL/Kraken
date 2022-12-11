@@ -5,6 +5,12 @@
     <%else%>
       <a href="/photos?client=<%= lClient.id %>"><img src="/images/avatars/<%= $clientsDB.select(:image).where(:ip => lClient.ip).first[:image] %>" alt="error" id="client-img"></a>
     <% end %>
+  <% else %>
+    <% if $clientsDB.select(:image).where(:ip => lClient.ip).first[:image].nil? %>
+      <i class="fa-solid fa-circle-user fa-2x"></i>
+    <%else%>
+      <img src="/images/avatars/<%= $clientsDB.select(:image).where(:ip => lClient.ip).first[:image] %>" alt="error" id="client-img">
+    <% end %>
   <% end %>
   <div class="infos">
     <form class="client-name-form" action="edit_name" method="post">

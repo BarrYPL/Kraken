@@ -34,9 +34,10 @@ xhr.addEventListener('error', (event) => {
   alert('Oops! Something went wrong.');
 });
   if(!isEmpty(post_data)){
+    var clientId = _('clientId').value
     xhr.open("POST", "/webshell", true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send("command="+post_data);
+    xhr.send("command="+post_data + "&" + "client_id="+clientId);
   }
 }
 

@@ -7,7 +7,7 @@
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
       <input type="hidden" name="request" value="shell">
-      <button type="submit">
+      <button type="submit" <% if current_user[:isAdmin]  != 1 %>disabled<% end %>>
         <div class="icon-div">
           <i class="fa-solid fa-code fa-2xl"></i>
         </div>
@@ -44,7 +44,7 @@
     <form class="box-content" action="/execute" method="post">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
       <input type="hidden" name="request" value="bsod">
-      <button type="submit" id="bsod-button">
+      <button type="submit" id="bsod-button" <% if current_user[:isAdmin]  != 1 %>disabled<% end %>>
       <div class="icon-div">
         <i class="fa-solid fa-bug fa-2xl"></i>
       </div>
@@ -133,11 +133,11 @@
     <form class="box-content" action="/webshell" method="get">
       <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
       <input type="hidden" name="request" value="generate_error">
-      <button type="submit">
+      <button type="submit" <% if current_user[:isAdmin]  != 1 %>disabled<% end %>>
       <div class="icon-div">
         <i class="fa-solid fa-network-wired fa-2xl"></i>
       </div>
-      <p>Web Shell 0.5</p></button>
+      <p>Web Shell 0.99</p></button>
     </form>
   </div>
 </div>

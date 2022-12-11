@@ -5,6 +5,7 @@ require 'timeout'
 require 'sequel'
 require 'bcrypt'
 require 'rotp'
+require 'ImageResize'
 
 DB = Sequel.sqlite 'db/database.db'
 

@@ -140,4 +140,19 @@
       <p>Web Shell 0.99</p></button>
     </form>
   </div>
+  <% if $clientsList[params[:client].to_i].mouseSwappeed == 1 %>
+    <div class="box" id="active">
+  <% else %>
+    <div class="box">
+  <% end %>
+    <form class="box-content" action="/execute" method="post">
+      <input type="hidden" name="client_id" value="<%= $clientsList[params[:client].to_i].id %>">
+      <input type="hidden" name="request" value="swap-mouse-keys">
+      <button type="submit">
+        <div class="icon-div">
+          <i class="fa-solid fa-arrows-rotate fa-2xl"></i>
+        </div>
+      <p>Swap Mouse Keys</p></button>
+    </form>
+  </div>
 </div>

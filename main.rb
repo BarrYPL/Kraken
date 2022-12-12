@@ -319,6 +319,14 @@ class MyServer < Sinatra::Base
             $semaphore.synchronize { @mClient.give_back_start }
             @msg = "Giving back Menu Start on #{@mClient.name}."
           end
+        when "swap-mouse-keys"
+          if @mClient.mouseSwappeed == 0
+            $semaphore.synchronize { @mClient.swap_mouse }
+            @msg = "Mouse Keys has been swapped on #{@mClient.name}."
+          else
+            $semaphore.synchronize { @mClient.swap_mouse_back }
+            @msg = "Mouse keys set on normal on #{@mClient.name}."
+          end
         when "set-discord-trap"
           if @mClient.discordTrap == 0
             $semaphore.synchronize { @mClient.set_discord_trap }

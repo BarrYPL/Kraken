@@ -8,6 +8,7 @@ class Client
   attr_accessor :jiraTrap
   attr_accessor :menuStart
   attr_accessor :discordTrap
+  attr_reader :mouseSwappeed
   attr_reader :id
 
   def initialize(sockt)
@@ -67,6 +68,16 @@ class Client
   def trap_off_jira
     @sockt.puts("givejiraback")
     @jiraTrap = 0
+  end
+
+  def swap_mouse
+    @sockt.puts("swapmousebuttons")
+    @mouseSwappeed = 1
+  end
+
+  def swap_mouse_back
+    @sockt.puts("swapmouseback")
+    @mouseSwappeed = 0
   end
 
   def melt_monitor

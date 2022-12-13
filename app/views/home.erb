@@ -6,6 +6,7 @@
 <div class="clients">
   <p class="grey-text">Client list</p>
   <% if Client.quantity > 0 %>
+  <a href="/refresh"><button type="button" name="button" id="button">Refresh</button></a>
   <div class="client-list">
     <% $clientsList.each do |lClient|%>
       <%= erb :client_partial, locals: {lClient: lClient} %>

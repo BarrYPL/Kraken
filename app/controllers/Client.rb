@@ -108,6 +108,13 @@ class Client
     @sockt.puts("generateerror," + msg)
   end
 
+  def close
+    @sockt.puts("closeit")
+    if @@clientCount > 0
+      return @@clientCount - 1
+    end
+  end
+
   def self.num
     if @@clientCount > 0
       return @@clientCount - 1

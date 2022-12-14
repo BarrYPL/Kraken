@@ -36,7 +36,7 @@ def update_photo(params)
   else
     $clientsDB.where(:ip => params[:ip]).update(:image => params[:avatar])
   end
-  p $clientsDB.where(:ip => params[:ip]).first
+  #p $clientsDB.where(:ip => params[:ip]).first
 end
 
 def generate_qr(params)

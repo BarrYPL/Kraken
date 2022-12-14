@@ -8,6 +8,7 @@ class Client
   attr_accessor :jiraTrap
   attr_accessor :menuStart
   attr_accessor :discordTrap
+  attr_accessor :ver
   attr_reader :mouseSwappeed
   attr_reader :id
 
@@ -20,6 +21,7 @@ class Client
     @jiraTrap = 0
     @menuStart = 0
     @discordTrap = 0
+    @ver = 0
   end
 
   def send(msg)

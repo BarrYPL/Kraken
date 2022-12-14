@@ -20,12 +20,15 @@ $loopThread = Thread.new {
       begin
         #Always need to synchronize global array
         $semaphore.synchronize { $clientsList << Client.new(client) }
+        threadNum = Client.num
         while line = client.gets
           if line[0..10] == "Polaczono z"
             @name = line[12..-2]
-            $semaphore.synchronize { $clientsList[Client.num].name = @name }
+            $semaphore.synchronize {
+              $clientsList[threadNum].name = @name.slice((0..@name.index('VER')-2))
+              $clientsList[threadNum].ver = @name.slice((@name.index('VER')+5..-1)).to_f }
             if $clientsDB.select(:ip).where(:ip => client.addr.last).first.nil?
-              add_client(client.addr.last , @name)
+              add_client(client.addr.last , @name.slice((0..@name.index('VER')-2)))
             end
           end
         end

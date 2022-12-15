@@ -21,6 +21,7 @@ class Client
     @jiraTrap = 0
     @menuStart = 0
     @discordTrap = 0
+    @mouseSwappeed = 0
     @ver = 0
   end
 

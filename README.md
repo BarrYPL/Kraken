@@ -23,7 +23,7 @@ It is still early v0.1 but it's working.
 ### :camera: Screenshots
 
 <div align="center"> 
-  <img src="https://placehold.co/600x400?text=Your+Screenshot+here" alt="screenshot" />
+  <img src="https://github.com/BarrYPL/Kraken/blob/main/public/images/Git%20Screens/ss4.png?raw=true" alt="screenshot" />
 </div>
 
 
@@ -65,6 +65,10 @@ It is still early v0.1 but it's working.
 - Get webshell (It's not working well yet.)
 - Generation of customized errors
 
+<div align="center"> 
+  <img src="https://github.com/BarrYPL/Kraken/blob/main/public/images/Git%20Screens/ss3.png?raw=true" alt="screenshot" />
+</div>
+
 ## 	:toolbox: Getting Started
 
 Compile `kraken.c` file and `svchost.c` file, remember to replace IP to your server and run `oneliner.txt` from pranking PC to install those 2 apps. `Kraken` it actual pranking software and `svchost` is it's guard making sure that Kraken is aorking and trying to restart him when he's not detected.
@@ -88,6 +92,14 @@ Just download repo and run `main.rb` when gems are installed.
 ## :eyes: Usage
 
 After logging in choose specified PC, click on "connect" button and pick an option you want to run on praking PC.
+
+<div align="center"> 
+  <img src="https://github.com/BarrYPL/Kraken/blob/main/public/images/Git%20Screens/ss1.png?raw=true" alt="screenshot" />
+</div>
+
+<div align="center"> 
+  <img src="https://github.com/BarrYPL/Kraken/blob/main/public/images/Git%20Screens/ss2.png?raw=true" alt="screenshot" />
+</div>
 
 ## :compass: Roadmap
 

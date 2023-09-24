@@ -1,4 +1,4 @@
-require_relative('app/controllers/controller')
+require_relative('app/controllers/application_controller')
 
 #TCP Server variables
 $stdout.sync = true

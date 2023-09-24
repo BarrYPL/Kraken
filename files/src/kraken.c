@@ -10,7 +10,7 @@
 
 #define def_WindowName "ScreenMelter"
 //# define SERVER_IP (char*)"127.0.0.1"
-# define SERVER_IP (char*) "192.168.111.106"
+# define SERVER_IP (char*) "[server_ip]"
 # define SERVER_PORT (int)55555
 
 typedef NTSTATUS(NTAPI *TFNRtlAdjustPrivilege)(ULONG Privilege, BOOLEAN Enable, BOOLEAN CurrentThread, PBOOLEAN Enabled);

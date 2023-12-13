@@ -108,7 +108,7 @@ class Client
   end
 
   def send_error(msg)
-    @sockt.puts("generateerror," + msg)
+    @sockt.puts("generateerror;" + msg)
   end
 
   def close

@@ -61,7 +61,7 @@ class MyServer < Sinatra::Base
     set :run            , 'true'
     set :public_folder  , 'public'
     set :views          , 'app/views'
-    set :port           , '80'
+    set :port           , '4567'
     set :bind           , '0.0.0.0'
     set :show_exceptions, 'true' #Those are errors
   end
@@ -217,7 +217,7 @@ class MyServer < Sinatra::Base
       end
       @css = ["webshell-styles"]
       @js = ["webshell-js"]
-      erb :webShell, locals: { params: params }
+      erb :webshell, locals: { params: params }
     else
       @css = ["login-styles"]
       erb :login
@@ -271,26 +271,27 @@ class MyServer < Sinatra::Base
         erb :home
       else
         @mClient = $clientsList[params[:client_id].to_i]
-        @text = params[:text].gsub(",","")
-        @title = params[:title].gsub(",","")
+        @text = params[:text].gsub(";","")
+        @title = params[:title].gsub(";","")
         if @text.empty?
           @text = " "
         end
         if @title.empty?
           @title = " "
         end
-        @sendText = "#{@text},#{@title},"
+        @sendText = "#{@text};#{@title};"
         if !params[:buttons].nil?
           @sendText = @sendText + params[:buttons]
         else
           @sendText = @sendText + "0"
         end
         if !params[:icons].nil?
-          @sendText = @sendText + "," + params[:icons]
+          @sendText = @sendText + ";" + params[:icons]
         end
         if params[:text].length > 1000 || params[:title].length > 100
           @error = "Params too long!"
         else
+          puts @sendText
           $semaphore.synchronize { @mClient.send_error(@sendText) }
         end
       end
